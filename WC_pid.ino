@@ -23,13 +23,13 @@ DS18B20 ds(AIR_SENSOR_PIN);
 
 bool printMissingParam(Commander &Cmdr) {
   Cmdr.println(F("Missing params. See help."));
-  return 0;
+  return false;
 }
 
 bool printBadPWMOut(Commander &Cmdr, uint8_t const& i) {
   Cmdr.print(F("There is no PWM out "));
   Cmdr.println(i);
-  return 0;
+  return false;
 }
 
 bool testPwmHandlers(Commander &Cmdr, uint8_t &value, uint8_t temp, uint8_t i) {
@@ -42,7 +42,7 @@ bool testPwmHandlers(Commander &Cmdr, uint8_t &value, uint8_t temp, uint8_t i) {
     return printBadPWMOut(Cmdr, i);
   }
 
-  return 1;
+  return true;
 }
 
 bool setPwmMinHandler(Commander &Cmdr){
@@ -56,7 +56,7 @@ bool setPwmMinHandler(Commander &Cmdr){
   Cmdr.println(mins.x);
   Cmdr.print("minValue:");
   Cmdr.println(mins.y);
-  return 0;
+  return false;
 }
 
 bool setPwmMaxHandler(Commander &Cmdr){
@@ -70,7 +70,7 @@ bool setPwmMaxHandler(Commander &Cmdr){
   Cmdr.println(maxs.x);
   Cmdr.print("maxValue:");
   Cmdr.println(maxs.y);
-  return 0;
+  return false;
 }
 
 
