@@ -13,6 +13,13 @@
 #define ABSOLUTE_MIN_T  12
 #define ABSOLUTE_MAX_T  50
 
+/*
+ * Class to manage PWM duty cycle for fans or pump.
+ *
+ * Contains min and max temperature and duty cycle, and a function Object
+ * related to temperature.
+ * Defaults and absolutes values are related with sensors data table (see Data.h).
+ */
 class PWMEntity {
  private:
   uint8_t pin;
@@ -24,15 +31,18 @@ class PWMEntity {
   LinearFunction* f;
 
  protected:
-  void searchLinearFunction();
+  // Set linear function Object with min and max temp/values.
   void refreshFunction();
 
  public:
   PWMEntity(const uint8_t);
 
+  // Apply duty cycle value on pin.
+  void update(uint8_t const&);
+
   // set temp and value at same time, then refresh function.
-  void setMin(uint8_t const&,uint8_t const&);
-  void setMax(uint8_t const&,uint8_t const&);
+  void setMin(uint8_t const& _t, uint8_t const& _v, bool const& refresh = true);
+  void setMax(uint8_t const& _t, uint8_t const& _v, bool const& refresh = true);
 
   // just set one, then eventually refresh function
   void setMinValue(uint8_t const& _v, bool const& refresh = true);

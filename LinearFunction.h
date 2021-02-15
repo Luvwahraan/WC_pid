@@ -8,8 +8,10 @@ typedef struct {
   uint8_t y;
 } coordonates;
 
-/* Define a linear function with two coordonates,
+/*
+ * Define a linear function with two coordonates ({minTemp,minPWM} and {maxTemp,maxPWM}),
  * and offer to get values on there function.
+ * This class doesnt care if function is increasing or decreasing, so pay attention to min and max.
  */
 class LinearFunction {
  private:

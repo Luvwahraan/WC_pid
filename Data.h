@@ -41,7 +41,13 @@ const uint8_t temperature[] PROGMEM = {
   13,  13,  12,  12,  12,  12,  12
 };
 
-
+/*
+ * This class links sensors values and temperatures thanks to a data table.
+ *
+ * The data table is limited and for a particular sensor and assembly (here with
+ * thermistor from 12 to 50°C, readed from a digital pin with ~4V max).
+ * Please create a table related to your assembly.
+ */
 class Data {
   private:
     uint16_t value;

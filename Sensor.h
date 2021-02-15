@@ -3,16 +3,19 @@
 
 #include "Arduino.h"
 
+/*
+ * Just some sensor abstract class.
+ */
 class Sensor {
-  private:
-    uint8_t pin;
-    bool external;
+ private:
+  uint8_t pin;
+  bool external;
 
-  public:
-    Sensor(const uint8_t _pin, const bool _external = false);
+ public:
+  Sensor(const uint8_t _pin, const bool _external = false);
 
-    const uint8_t getPin();
-    uint16_t read();
+  const uint8_t getPin();
+  uint16_t read();
 };
 
 #endif
