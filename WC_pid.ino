@@ -12,15 +12,21 @@ PWMEntity* PWMTab[MAX_PWM];
 uint8_t nbPWMEntities = 0;
 
 uint32_t wDelay = 1500;
-uint16_t coef = 3;
 
 #if USE_DS18B20 > 0
+/*
+ * DS18B20 OneWire temperature sensor.
+ * See https://github.com/matmunk/DS18B20
+ */
 DS18B20 ds(AIR_SENSOR_PIN);
 #endif
 
 
 
 
+/*
+ * Error messages
+ */
 bool printMissingParam(Commander &Cmdr) {
   Cmdr.println(F("Missing params. See help."));
   return false;
@@ -31,6 +37,13 @@ bool printBadPWMOut(Commander &Cmdr, uint8_t const& i) {
   Cmdr.println(i);
   return false;
 }
+
+/*
+ * End error msgs
+ */
+
+
+
 
 bool testPwmHandlers(Commander &Cmdr, uint8_t &value, uint8_t temp, uint8_t i) {
   // There is nb, temp and value?
@@ -75,19 +88,9 @@ bool setPwmMaxHandler(Commander &Cmdr){
 
 
 
-/*  Setting by serial
- *
- * MINTEMPn 00
- * MAXTEMPn 00
- * MINPWMn 000
- * MAXPWMn 000
- *
- * Out        n
- * FAN0       0
- * FAN1       1
- * PUMP       2
+/*
+ * Counts how many PWM are activated
  */
-
 void getNbPWM() {
   nbPWMEntities = 0;
 #if USE_PWM_FAN0 > 0
@@ -101,6 +104,9 @@ void getNbPWM() {
 #endif
 }
 
+/*
+ * Fills PWMEntity tab
+ */
 void initPWM() {
   getNbPWM();
 
@@ -121,7 +127,10 @@ void initPWM() {
   } while ( i < nbPWMEntities );
 }
 
-
+/*
+ * Serial commands handler.
+ * See https://github.com/CreativeRobotics/Commander
+ */
 Commander cmd;
 const commandList_t commands[] = {
   {"setPwmMin",       setPwmMinHandler,     "setPwmMin n minTemp minPwm, with n =~ [012]"},
