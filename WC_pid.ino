@@ -32,26 +32,23 @@ bool printBadPWMOut(Commander &Cmdr, uint8_t const& i) {
   return 0;
 }
 
+bool testPwmHandlers(Commander &Cmdr, uint8_t &value, uint8_t temp, uint8_t i) {
+  // There is nb, temp and value?
+  if ( !Cmdr.getInt(i) || !Cmdr.getInt(temp) || !Cmdr.getInt(value) ) {
+    return printMissingParam(Cmdr);
+  }
+
+  if (i >= (nbPWMEntities) ) {
+    return printBadPWMOut(Cmdr, i);
+  }
+
+  return 1;
+}
+
 bool setPwmMinHandler(Commander &Cmdr){
   uint8_t value, temp, i;
-
-  // There is temp?
-  if (Cmdr.getInt(i) ) {
-    if (i >= (nbPWMEntities) ) {
-      return printBadPWMOut(Cmdr, i);
-    }
-  } else {
-    return printMissingParam(Cmdr);
-  }
-
-  // There is temp?
-  if (!Cmdr.getInt(temp) ) {
-    return printMissingParam(Cmdr);
-  }
-
-  // There is value?
-  if (!Cmdr.getInt(value) ) {
-    return printMissingParam(Cmdr);
+  if ( testPwmHandlers( Cmdr, value, temp, i ) ) {
+    PWMTab[i]->setMin(temp,value);
   }
 
   coordonates mins = PWMTab[i]->getMinimums();
@@ -64,24 +61,8 @@ bool setPwmMinHandler(Commander &Cmdr){
 
 bool setPwmMaxHandler(Commander &Cmdr){
   uint8_t value, temp, i;
-
-  // There is temp?
-  if (Cmdr.getInt(i) ) {
-    if (i >= (nbPWMEntities) ) {
-      return printBadPWMOut(Cmdr, i);
-    }
-  } else {
-    return printMissingParam(Cmdr);
-  }
-
-  // There is temp?
-  if (!Cmdr.getInt(temp) ) {
-    return printMissingParam(Cmdr);
-  }
-
-  // There is value?
-  if (!Cmdr.getInt(value) ) {
-    return printMissingParam(Cmdr);
+  if ( testPwmHandlers( Cmdr, value, temp, i ) ) {
+    PWMTab[i]->setMax(temp,value);
   }
 
   coordonates maxs = PWMTab[i]->getMaximums();
