@@ -6,16 +6,19 @@ PWMEntity::PWMEntity(const uint8_t _pin) {
   pin = _pin;
 
   setMin( DEFAULT_MIN_T, DEFAULT_MIN_V, false );
-  setMax( DEFAULT_MAX_T, DEFAULT_MAX_V, true);
+  setMax( DEFAULT_MAX_T, DEFAULT_MAX_V, false);
+  refreshFunction();
 
 }
 
-void PWMEntity::update(uint8_t const& temp) {
+uint8_t PWMEntity::update(uint8_t const& temp) {
   analogWrite(pin, getPWMFunctionValue(temp) );
+  return value;
 }
 
 uint8_t PWMEntity::getPWMFunctionValue(uint8_t const& temp) {
-  return f->getValue(temp);
+  value = f->getValue(temp);
+  return value;
 }
 
 void PWMEntity::refreshFunction() {
@@ -27,18 +30,23 @@ void PWMEntity::refreshFunction() {
 }
 
 bool PWMEntity::setMin(uint8_t const& _t, uint8_t const& _v, bool const& refresh) {
-  Serial.print("setMinTemp:");
+  /*Serial.print("setMinTemp:");
   Serial.print(_t);
   Serial.print(", setMinValue:");
-  Serial.println(_v);
+  Serial.println(_v);/**/
 
   setMinValue(_v, false);
-  return setMinTemp(_t, true);;
+  return setMinTemp(_t, refresh);;
 }
 
 bool PWMEntity::setMax(uint8_t const& _t, uint8_t const& _v, bool const& refresh) {
+  /*Serial.print("setMaxTemp:");
+  Serial.print(_t);
+  Serial.print(", setMaxValue:");
+  Serial.println(_v);/**/
+
   setMaxValue(_v, false);
-  return setMaxTemp(_t, false);;
+  return setMaxTemp(_t, refresh);;
 }
 
 bool PWMEntity::setMinValue(uint8_t const& _v, bool const& refresh) {
@@ -59,8 +67,6 @@ bool PWMEntity::setMaxValue(uint8_t const& _v, bool const& refresh) {
 
 bool PWMEntity::setMinTemp(uint8_t const& _t, bool const& refresh) {
   bool ret = false;
-  Serial.print("setMinTemp:");
-  Serial.println(_t);
   if ( _t < ABSOLUTE_MIN_T ) {
     minTemp = ABSOLUTE_MIN_T;
   }

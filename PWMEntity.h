@@ -38,7 +38,7 @@ class PWMEntity {
   PWMEntity(const uint8_t);
 
   // Apply duty cycle value on pin.
-  void update(uint8_t const&);
+  uint8_t update(uint8_t const&);
 
   // set temp and value at same time, then refresh function.
   bool setMin(uint8_t const& _t, uint8_t const& _v, bool const& refresh = true);
@@ -58,6 +58,7 @@ class PWMEntity {
   inline const coordonates getMaximums() { return {maxTemp,maxValue}; }
 
   uint8_t getPWMFunctionValue(uint8_t const&);
+  LinearFunction* getFunction() { return f; }
 };
 
 #endif
