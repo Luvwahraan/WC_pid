@@ -41,21 +41,21 @@ class PWMEntity {
   void update(uint8_t const&);
 
   // set temp and value at same time, then refresh function.
-  void setMin(uint8_t const& _t, uint8_t const& _v, bool const& refresh = true);
-  void setMax(uint8_t const& _t, uint8_t const& _v, bool const& refresh = true);
+  bool setMin(uint8_t const& _t, uint8_t const& _v, bool const& refresh = true);
+  bool setMax(uint8_t const& _t, uint8_t const& _v, bool const& refresh = true);
 
   // just set one, then eventually refresh function
-  void setMinValue(uint8_t const& _v, bool const& refresh = true);
-  void setMaxValue(uint8_t const& _v, bool const& refresh = true);
-  void setMinTemp(uint8_t const& _t, bool const& refresh = true);
-  void setMaxTemp(uint8_t const& _t, bool const& refresh = true);
+  bool setMinValue(uint8_t const& _v, bool const& refresh = true);
+  bool setMaxValue(uint8_t const& _v, bool const& refresh = true);
+  bool setMinTemp(uint8_t const& _t, bool const& refresh = true);
+  bool setMaxTemp(uint8_t const& _t, bool const& refresh = true);
 
-  const uint8_t getMinValue() { return minValue; }
-  const uint8_t getMaxValue() { return maxValue; }
-  const uint8_t getMinTemp() { return minTemp; }
-  const uint8_t getMaxTemp() { return maxTemp; }
-  const coordonates getMinimums() { return {minTemp,minValue}; }
-  const coordonates getMaximums() { return {maxTemp,maxValue}; }
+  inline const uint8_t getMinValue() { return minValue; }
+  inline const uint8_t getMaxValue() { return maxValue; }
+  inline const uint8_t getMinTemp() { return minTemp; }
+  inline const uint8_t getMaxTemp() { return maxTemp; }
+  inline const coordonates getMinimums() { return {minTemp,minValue}; }
+  inline const coordonates getMaximums() { return {maxTemp,maxValue}; }
 
   uint8_t getPWMFunctionValue(uint8_t const&);
 };
