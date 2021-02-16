@@ -86,14 +86,18 @@ void setup() {
 
 
 uint32_t timer = millis();
+uint32_t pTimer = millis();
 void loop() {
   static Dataset WCData( new Sensor(WC_SENSOR_PIN, true), 3 );
+
+  bool printTime = false;
+  if ( millis() - pTimer >= printDelay ) printTime = true;
 
   if (millis() - timer >= wDelay) {
     Data dat = WCData.getData();
 
     uint8_t temp = dat.getTemperature();  // tab temperature
-    if ( millis() - timer >= printDelay ) {
+    if ( printTime ) {
       Serial.print(F("Water:"));
       Serial.print(temp);
     }
@@ -105,7 +109,7 @@ void loop() {
     for (uint8_t i=0; i < nbPWMEntities; i++) {
       uint8_t dutyCycle = PWMTab[i]->update(temp);
 
-      if ( millis() - timer >= printDelay ) {
+      if ( printTime ) {
         Serial.print(F(",PWM"));
         Serial.print(i);
         Serial.print(F(":"));
@@ -116,15 +120,18 @@ void loop() {
 #if USE_DS18B20 > 0
     // DS18B20 temperature
     while (ds.selectNext()) {
-      if ( millis() - timer >= printDelay ) {
+      if ( printTime ) {
         Serial.print(F(",Air:"));
         Serial.print(ds.getTempC());
       }
     }
 #endif
 
-    if ( millis() - timer >= printDelay ) Serial.print("\n");
-    timer = millis();
+    if ( printTime ) {
+      Serial.print(F("\n"));
+      pTimer = millis();
+      timer = pTimer;
+    } else timer = millis();
   } else {
     delay(50);
   }
