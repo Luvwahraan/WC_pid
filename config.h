@@ -4,7 +4,7 @@
 #include "Arduino.h"
 
 
-#define USE_DS18B20 0
+#define USE_DS18B20 1
 #define USE_PWM_PUMP 0
 #define USE_PWM_FAN0 1
 #define USE_PWM_FAN1 1
