@@ -10,5 +10,5 @@ LinearFunction::calculate(coordonates const& A, coordonates const& B) {
 }
 
 const uint8_t LinearFunction::getValue(uint8_t const& temp) {
-  return (a * temp) + b;
+  return floor( ( (a * temp) + b) + 0.5 );
 }

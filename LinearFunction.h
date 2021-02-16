@@ -19,11 +19,14 @@ class LinearFunction {
   double b;
 
  protected:
+  // Searching a and b for "f(x) = ax+b" linear function.
   calculate(coordonates const&, coordonates const&);
 
  public:
   LinearFunction(coordonates const&,coordonates const&);
-  const uint8_t getValue(uint8_t const&);
+
+  // returning f(temp).
+  inline const uint8_t getValue(uint8_t const& temp);
 };
 
 #endif
