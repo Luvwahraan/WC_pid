@@ -26,7 +26,9 @@ class LinearFunction {
   LinearFunction(coordonates const&,coordonates const&);
 
   // returning f(temp).
-  inline const uint8_t getValue(uint8_t const& temp);
+  const uint8_t getValue(uint8_t const& temp);
+  const void printValues();
+  const String getStringFunction();
 };
 
 #endif
