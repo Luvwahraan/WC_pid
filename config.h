@@ -7,7 +7,7 @@
 #define USE_DS18B20 1
 #define USE_PWM_PUMP 0
 #define USE_PWM_FAN0 1
-#define USE_PWM_FAN1 1
+#define USE_PWM_FAN1 0
 
 #define MAX_PWM 3
 
