@@ -14,7 +14,7 @@
 PWMEntity* PWMTab[MAX_PWM];
 uint8_t nbPWMEntities = 0;
 
-uint32_t wDelay = 2000;
+uint32_t wDelay = 500;
 
 #if USE_DS18B20 > 0
 /*
@@ -52,6 +52,8 @@ void initPWM() {
   do {
 #if USE_PWM_FAN0 > 0
     PWMTab[i] = new PWMEntity(PWM0_PIN);
+    //Serial.println(PWMTab[i]->getFunction()->getStringFunction() );
+    //PWMTab[i]->getFunction()->printValues();
     i++;
 #endif
 #if USE_PWM_FAN1 > 0
@@ -72,8 +74,12 @@ void setup() {
   for (int8_t i = 0; i < 10; i++) { Serial.println(); }
 
   // Initializing pwm tab
-  Serial.println(F("Init PWM entities."));
+  //Serial.println(F("Init PWM entities."));
   initPWM();
+
+  delay(500);
+
+
 }
 
 
@@ -82,26 +88,36 @@ uint32_t timer = millis();
 void loop() {
   static Dataset WCData( new Sensor(WC_SENSOR_PIN, true), 3 );
 
-  timer = millis() - timer;
-  if (timer >= wDelay) {
+  if (millis() - timer >= wDelay) {
+    Data dat = WCData.getData();
+
+    uint8_t temp = dat.getTemperature();  // tab temperature
+    Serial.print(F("Water:"));
+    Serial.print(temp);
+
+    /*uint16_t value = dat.getValue();      // sensor value
+    Serial.print("Sensor:");
+    Serial.print(value);/**/
+
+    for (uint8_t i=0; i < nbPWMEntities; i++) {
+      uint8_t dutyCycle = PWMTab[i]->update(temp);
+      Serial.print(F(",PWM"));
+      Serial.print(i);
+      Serial.print(F(":"));
+      Serial.print(dutyCycle);
+    }
+
 #if USE_DS18B20 > 0
     // DS18B20 temperature
     while (ds.selectNext()) {
-      Serial.print("AirTemp:");
+      Serial.print(F(",Air:"));
       Serial.print(ds.getTempC());
-      Serial.print(",");
     }
 #endif
-    Data dat = WCData.getData();
-    uint16_t value = dat.getValue();      // sensor value
-    uint8_t temp = dat.getTemperature();  // tab temperature
-    Serial.print("Sensor:");
-    Serial.print(value);
-    Serial.print(",Temp:");
-    Serial.println(temp);/**/
 
+    Serial.print("\n");
     timer = millis();
+  } else {
+    delay(50);
   }
-
-
 }
